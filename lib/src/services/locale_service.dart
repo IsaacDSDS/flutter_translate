@@ -6,12 +6,12 @@ import 'locale_file_service.dart';
 
 class LocaleService
 {
-    static Future<Map<Locale, String>> getLocalesMap(List<String> locales, String basePath) async
-    {
-        var files = await LocaleFileService.getLocaleFiles(locales, basePath);
-
-        return files.map((x,y) => MapEntry(localeFromString(x), y));
-    }
+    // static Future<Map<Locale, String>> getLocalesMap(List<String> locales, Map<String, dynamic>) async
+    // {
+    //     var files = await LocaleFileService.getLocaleFiles(locales, basePath);
+    //
+    //     return files.map((x,y) => MapEntry(localeFromString(x), y));
+    // }
 
     static Locale? findLocale(Locale locale, List<Locale> supportedLocales)
     {

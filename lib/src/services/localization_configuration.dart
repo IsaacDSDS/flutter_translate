@@ -15,18 +15,18 @@ class LocalizationConfiguration
 
     LocalizationConfiguration._(this.fallbackLocale, this.supportedLocales);
 
-    static Future<LocalizationConfiguration> create(String fallbackLanguage, List<String> supportedLanguages, {String basePath = Constants.localizedAssetsPath}) async
-    {
-        var configuration = new LocalizationConfiguration._(localeFromString(fallbackLanguage), _generateSupportedLocales(supportedLanguages));
-
-        _validateConfiguration(fallbackLanguage, supportedLanguages);
-
-        var files = await LocaleFileService.getLocaleFiles(supportedLanguages, basePath);
-
-        configuration._localizations = files.map((x,y) => _getLocalizedEntry(x, y));
-
-        return configuration;
-    }
+    // static Future<LocalizationConfiguration> create(String fallbackLanguage, List<String> supportedLanguages, {String basePath = Constants.localizedAssetsPath}) async
+    // {
+    //     var configuration = new LocalizationConfiguration._(localeFromString(fallbackLanguage), _generateSupportedLocales(supportedLanguages));
+    //
+    //     _validateConfiguration(fallbackLanguage, supportedLanguages);
+    //
+    //     var files = await LocaleFileService.getLocaleFiles(supportedLanguages, basePath);
+    //
+    //     configuration._localizations = files.map((x,y) => _getLocalizedEntry(x, y));
+    //
+    //     return configuration;
+    // }
 
     static void _validateConfiguration(String fallbackLanguage, List<String> supportedLanguages)
     {

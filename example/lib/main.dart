@@ -5,11 +5,13 @@ import 'package:flutter_translate/flutter_translate.dart';
 
 void main() async
 {
-  var delegate = await LocalizationDelegate.create(
-          fallbackLocale: 'en_US',
-          supportedLocales: ['en_US', 'es', 'fa', 'ar', 'ru']);
+  // var delegate = await LocalizationDelegate.create(
+  //         fallbackLocale: 'en_US',
+  //         supportedLocales: ['en_US', 'es', 'fa', 'ar', 'ru']);
 
-  runApp(LocalizedApp(delegate, MyApp()));
+  // runApp(LocalizedApp(delegate, MyApp()));
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

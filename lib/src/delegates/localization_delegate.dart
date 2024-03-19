@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:flutter_translate/src/constants/constants.dart';
 import 'package:flutter_translate/src/services/locale_service.dart';
 import 'package:flutter_translate/src/validators/configuration_validator.dart';
 
@@ -13,15 +12,15 @@ class LocalizationDelegate extends LocalizationsDelegate<Localization>
 
     final List<Locale> supportedLocales;
 
-    final Map<Locale, String> supportedLocalesMap;
-
     final ITranslatePreferences? preferences;
+
+    final Map<String, Map<String, dynamic>> translations;
 
     LocaleChangedCallback? onLocaleChanged;
 
     Locale get currentLocale => _currentLocale!;
 
-    LocalizationDelegate._(this.fallbackLocale, this.supportedLocales, this.supportedLocalesMap, this.preferences);
+    LocalizationDelegate._(this.fallbackLocale, this.supportedLocales, this.preferences, this.translations);
 
     Future changeLocale(Locale newLocale) async
     {
@@ -31,7 +30,7 @@ class LocalizationDelegate extends LocalizationsDelegate<Localization>
 
         if(_currentLocale == locale) return;
 
-        var localizedContent = await LocaleService.getLocaleContent(locale, supportedLocalesMap);
+        var localizedContent = await translations[locale.languageCode] ?? {};
 
         Localization.load(localizedContent);
 
@@ -70,19 +69,19 @@ class LocalizationDelegate extends LocalizationsDelegate<Localization>
 
     static Future<LocalizationDelegate> create({
         required String fallbackLocale,
-        required List<String> supportedLocales,
-        String basePath = Constants.localizedAssetsPath,
+        required Map<String, Map<String, dynamic>> translations,
         ITranslatePreferences? preferences}) async
     {
         WidgetsFlutterBinding.ensureInitialized();
 
+        translations = translations;
+
         var fallback = localeFromString(fallbackLocale);
-        var localesMap = await LocaleService.getLocalesMap(supportedLocales, basePath);
-        var locales = localesMap.keys.toList();
+        var locales = translations.keys.map((e) => Locale(e)).toList();
 
         ConfigurationValidator.validate(fallback, locales);
 
-        var delegate = LocalizationDelegate._(fallback, locales, localesMap, preferences);
+        var delegate = LocalizationDelegate._(fallback, locales, preferences, translations);
 
         if(!await delegate._loadPreferences())
         {
